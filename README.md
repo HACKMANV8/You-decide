@@ -65,7 +65,7 @@ This makes it difficult to perform **threat assessment**, **audit investigations
 | **Blockchain Layer** | Truffle, Solidity, Moralis, Web3.js | Records event hashes on Ethereum for immutable verification. |
 | **AI/ML** | Python, Scikit-learn, Pandas, Numpy | Detects anomalies and potential breaches in incoming logs. |
 | **Security** | Crypto.js, Bcrypt, JWT | Encrypts sensitive data, authenticates users, and ensures data confidentiality. |
-| **Deployment** | Docker, Nginx | Simplifies deployment and scales horizontally. |
+| **Deployment** | Docker, Nginx | Simplifies deployment and scales horizontally and we are working to make it vertically. |
 
 ---
 
