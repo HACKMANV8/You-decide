@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { Shield, List, ShieldCheck, LogOut } from "lucide-react";
+import { Shield, List, ShieldCheck, LogOut, TrendingUp } from "lucide-react";
 
 const Navbar = () => {
   // useNavigate hook from react-router-dom to handle redirection
@@ -33,7 +33,7 @@ const Navbar = () => {
           {/* Center: Navigation Links */}
           <div className="hidden md:flex items-center space-x-4">
             <NavLink
-              to="/admin/allLogs" // Assuming your all logs page is the home route
+              to="/admin/all-logs"
               className={({ isActive }) => 
                 `${linkClasses} ${isActive ? activeLinkClasses : inactiveLinkClasses}`
               }
@@ -42,13 +42,22 @@ const Navbar = () => {
               <span>All Logs</span>
             </NavLink>
             <NavLink
-              to="/admin/blockedips" // Route for the blocked IPs page
+              to="/admin/blocked-ips"
               className={({ isActive }) => 
                 `${linkClasses} ${isActive ? activeLinkClasses : inactiveLinkClasses}`
               }
             >
               <ShieldCheck size={16} />
               <span>Blocked IPs</span>
+            </NavLink>
+            <NavLink
+              to="/admin/log-analysis"
+              className={({ isActive }) => 
+                `${linkClasses} ${isActive ? activeLinkClasses : inactiveLinkClasses}`
+              }
+            >
+              <TrendingUp size={16} />
+              <span>Log Analysis</span>
             </NavLink>
           </div>
 

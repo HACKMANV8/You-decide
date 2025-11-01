@@ -1,15 +1,45 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 
 import img from "../../assets/loginImg.jpg";
 
 const Login = () => {
+  const pageVariants = {
+    initial: { opacity: 0 },
+    animate: { opacity: 1, transition: { duration: 0.4 } },
+    exit: { opacity: 0, transition: { duration: 0.2 } }
+  };
+
+  const containerVariants = {
+    initial: { opacity: 0, y: 16 },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: { type: "spring", stiffness: 120, damping: 16 }
+    }
+  };
+
+  const itemVariants = {
+    initial: { opacity: 0, y: 10 },
+    animate: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: { delay: 0.05 * i, duration: 0.25 }
+    })
+  };
+
+  const mediaVariants = {
+    initial: { opacity: 0, x: 20 },
+    animate: { opacity: 1, x: 0, transition: { duration: 0.5 } }
+  };
   const [formData, setFormData] = useState({
     email: "",
     password: ""
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -73,7 +103,13 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen w-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 p-0">
+    <motion.div
+      className="min-h-screen w-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-blue-950 to-black p-0 font-sans"
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      variants={pageVariants}
+    >
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -84,70 +120,104 @@ const Login = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="light"
+        theme="dark"
       />
-      
-      <div className="w-full h-screen max-w-none mx-0 bg-white rounded-none shadow-none flex flex-col md:flex-row overflow-hidden">
-        {/* Left: Login Area */}
-        <div className="md:w-1/2 w-full mx-auto flex flex-col justify-center items-center p-8">
-          <div className="flex flex-col items-start justify-start text-start">
-            <h2 className="text-2xl font-bold mb-2">Login</h2>
-          </div>
+      <div className="w-full min-h-screen mx-0 bg-gradient-to-br from-slate-900 to-black flex flex-col lg:flex-row">
+        <motion.div
+          className="lg:w-1/2 w-full mx-auto flex flex-col justify-center items-center px-6 py-10 md:py-16"
+          variants={containerVariants}
+        >
+          <motion.div className="flex flex-col items-start justify-start text-start w-full max-w-md" variants={itemVariants} custom={0}>
+            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">Welcome back</h2>
+            <p className="text-blue-300 mt-1">Sign in to continue to your dashboard</p>
+          </motion.div>
 
-          <form onSubmit={handleSubmit} className="w-full flex flex-col justify-center mt-2">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
+          <motion.form
+            onSubmit={handleSubmit}
+            className="w-full max-w-md flex flex-col justify-center mt-6"
+            initial="initial"
+            animate="animate"
+          >
+            <motion.div variants={itemVariants} custom={1}>
+              <label className="block text-sm font-medium text-blue-200">
                 Email
               </label>
-              <input
+              <motion.input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="mt-1 block w-full border rounded-md px-3 py-2 shadow-sm outline-none focus:ring-2 focus:ring-black"
+                className="mt-1 block w-full bg-slate-800/50 border border-blue-700/50 rounded-lg px-3.5 py-2.5 text-white shadow-sm outline-none focus:ring-4 focus:ring-blue-500/30 focus:border-blue-500 placeholder-slate-500"
                 placeholder="Enter email address"
                 disabled={isLoading}
+                whileFocus={{ scale: 1.01 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
               />
-            </div>
-            
-            <div className="mt-4">
-              <label className="block text-sm font-medium text-gray-700">
+            </motion.div>
+
+            <motion.div className="mt-4" variants={itemVariants} custom={2}>
+              <label className="block text-sm font-medium text-blue-200">
                 Password
               </label>
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                className="mt-1 block w-full border rounded-md px-3 py-2 shadow-sm outline-none focus:ring-2 focus:ring-black"
-                placeholder="Enter Password"
-                disabled={isLoading}
-              />
-            </div>
+              <div className="relative">
+                <motion.input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="mt-1 block w-full bg-slate-800/50 border border-blue-700/50 rounded-lg px-3.5 py-2.5 pr-10 text-white shadow-sm outline-none focus:ring-4 focus:ring-blue-500/30 focus:border-blue-500 placeholder-slate-500"
+                  placeholder="Enter password"
+                  disabled={isLoading}
+                  whileFocus={{ scale: 1.01 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((v) => !v)}
+                  className="absolute inset-y-0 right-0 mt-1 mr-2.5 px-2 text-blue-400 hover:text-blue-300 text-sm"
+                  aria-label="Toggle password visibility"
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </button>
+              </div>
+            </motion.div>
 
-            <button
+            <motion.button
               type="submit"
               disabled={isLoading}
-              className="cursor-pointer mt-6 bg-black text-white font-semibold py-2 rounded-md shadow-md hover:bg-slate-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="cursor-pointer mt-6 bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 text-white font-semibold py-2.5 rounded-lg shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              whileHover={{ y: -1, boxShadow: "0 10px 28px rgba(59,130,246,0.4)" }}
+              whileTap={{ scale: 0.98 }}
+              variants={itemVariants}
+              custom={3}
             >
               {isLoading ? "Logging in..." : "Login"}
-            </button>
-            
-            <p className="text-sm mt-4 text-center">
+            </motion.button>
+
+            <motion.p className="text-sm mt-4 text-center text-blue-300" variants={itemVariants} custom={4}>
               Don't have an account?{" "}
-              <Link to="/signup" className="hover:underline text-black font-medium">
+              <Link to="/signup" className="hover:underline text-blue-400 font-medium">
                 Signup Now!
               </Link>
-            </p>
-          </form>
-        </div>
+            </motion.p>
+          </motion.form>
+        </motion.div>
 
-        {/* Right: Dashboard Preview */}
-        <div className="hidden md:flex flex-col w-1/2 bg-gradient-to-br from-indigo-50 via-purple-50 to-purple-100 p-8 relative h-screen">
-          <img src={img} alt="hero image" />
-        </div>
+        <motion.div
+          className="hidden lg:flex flex-col w-1/2 bg-gradient-to-br from-blue-950 via-slate-900 to-black p-8 relative min-h-screen"
+          variants={mediaVariants}
+        >
+          <motion.img
+            src={img}
+            alt="hero image"
+            initial={{ y: 10, opacity: 0.9 }}
+            animate={{ y: [10, -6, 10] }}
+            transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+            className="rounded-lg opacity-80"
+          />
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
