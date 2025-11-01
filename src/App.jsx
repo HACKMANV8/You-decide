@@ -17,17 +17,15 @@ import MainDashboard from "./admin/MainDashboard";
 const App = () => {
   const location = useLocation();
   
-  // Determine which navbar to show based on route
   const isAdminRoute = location.pathname.startsWith('/admin');
-  const publicRoutes = ['/', '/login', '/signup']; // Removed '/features' from here
+  const publicRoutes = ['/', '/login', '/signup']; 
   const isPublicRoute = publicRoutes.includes(location.pathname);
   
   return (
     <>
-      {/* Show AdminNavbar only on admin routes */}
+  
       {isAdminRoute && <AdminNavbar />}
       
-      {/* Show client Navbar on all routes except admin and public routes */}
       {!isAdminRoute && !isPublicRoute && <Navbar />}
       
       <Routes>

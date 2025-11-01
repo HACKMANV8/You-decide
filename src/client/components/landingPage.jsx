@@ -1,16 +1,19 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// --- IMPORTANT ---
-// Path to your video in the 'public' folder
 const videoUrl = '/my-video.mp4'; 
 
 const VideoTransitionPage = () => {
   const navigate = useNavigate();
 
-  // This function will be called when the video finishes
   const handleVideoEnd = () => {
-    navigate('/dashboard'); // Navigate to your '/home' route
+    const token=localStorage.getItem("token");
+    if(!token){
+       navigate('/login');
+    }else{
+ navigate('/dashboard');
+    }
+    
   };
 
   return (

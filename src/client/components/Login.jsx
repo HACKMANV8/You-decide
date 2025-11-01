@@ -76,18 +76,12 @@ const Login = () => {
 
       if (response.ok) {
         toast.success("Login successful!");
-        
-        // Store token if provided
         if (data.token) {
           localStorage.setItem("authToken", data.token);
         }
-        
-        // Store user data if provided
         if (data.user) {
           localStorage.setItem("user", JSON.stringify(data.user));
         }
-
-        // Redirect after short delay
         setTimeout(() => {
           navigate("/dashboard");
         }, 1500);
