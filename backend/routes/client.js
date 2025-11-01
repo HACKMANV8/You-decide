@@ -12,37 +12,35 @@ router.post("/addLog", async (req, res) => {
     const  logData  = req.body;
     console.log("Received log data:", logData);
       const userId=logData.userId;
-    // 1️⃣ Find the user (for DB reference)
+ 
     const user = await User.findById(userId);
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // 2️⃣ Predict ML risk score
+
     const ml_risk_score = predictMLScore(logData);
 
-    // 3️⃣ Prepare the line to write in files
     const logLine = `${logData.campLocation},${logData.timestamp},${logData.source},${logData.destination},${logData.user},${logData.device},${logData.eventType},${logData.eventDescription},${logData.eventSeverity},${ml_risk_score}\n`;
 
-    // 4️⃣ Write to individual camp file
     await fs.promises.appendFile(
       `./${process.env.LOCAL_LOG_FOLDER}/${logData.campLocation}.txt`,
       logLine
     );
 
-    // 5️⃣ Write to global All.txt file
+  
     await fs.promises.appendFile(
       `./${process.env.LOCAL_LOG_FOLDER}/All.txt`,
       logLine
     );
 
-    // 6️⃣ Save to MongoDB
+  
     const newLog = new Log({
       timestamp: logData.timestamp,
       source: logData.source,
       destination: logData.destination,
-      user: user._id, // linked to User schema
+      user: user._id, 
       device: logData.device,
       eventType: logData.eventType,
       eventDescription: logData.eventDescription,
