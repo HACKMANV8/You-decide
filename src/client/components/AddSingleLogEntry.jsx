@@ -28,13 +28,12 @@ const replaceVariable = (template, data) => {
   return template.replace(/{(\w+)}/g, (match, key) => data[key] || match);
 };
 
-// Function to decode JWT and extract userId
+
 const getUserIdFromToken = () => {
   try {
     const token = localStorage.getItem("authToken");
     if (!token) return null;
-    
-    // Decode JWT token (assuming it's a standard JWT)
+
     const base64Url = token.split('.')[1];
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
@@ -68,7 +67,7 @@ export default function Inputs() {
   const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    // Get userId from token on component mount
+
     const id = getUserIdFromToken();
     if (id) {
       setUserId(id);
@@ -78,7 +77,7 @@ export default function Inputs() {
   }, []);
 
   const handleSubmit = async () => {
-    // Validation
+
     if (!userId) {
       toast.error("User not authenticated. Please login again.");
       return;
@@ -199,7 +198,7 @@ export default function Inputs() {
       />
 
       <div className="w-full max-w-6xl bg-gray-900/80 rounded-2xl shadow-2xl overflow-hidden flex flex-col lg:flex-row border border-gray-800">
-        {/* Left Sidebar */}
+
         <div className="w-full lg:w-1/3 bg-gradient-to-br from-blue-900 via-blue-950 to-gray-950 p-10 text-white flex flex-col justify-center relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500 rounded-full opacity-10 blur-3xl -translate-y-1/2 translate-x-1/2"></div>
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-400 rounded-full opacity-10 blur-3xl translate-y-1/2 -translate-x-1/2"></div>
@@ -238,7 +237,6 @@ export default function Inputs() {
           </div>
         </div>
 
-        {/* Right Form Section */}
         <div className="w-full lg:w-2/3 p-8 lg:p-12 text-white overflow-y-auto">
           <div className="mb-8">
            <h1 className="text-4xl font-black mb-4 uppercase tracking-wide text-blue-400 

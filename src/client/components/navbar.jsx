@@ -9,7 +9,7 @@ const Navbar = () => {
   // ADDED: Initialize the useNavigate hook
   const navigate = useNavigate();
 
-  // This function remains unchanged
+  // This function remains uncgit pulhanged
   const getNavLinkClass = ({ isActive }) => {
     const baseClasses =
       "px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ease-in-out";
