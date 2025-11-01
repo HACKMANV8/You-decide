@@ -2,3 +2,4 @@ node_modules
 /centralLogDatabase
 /localLogDatabase
 build
+.env

@@ -31,7 +31,7 @@ router.post("/blockIP", async (req, res) => {
   try {
     const { destination, campLocation, source, userId, timestamp } = req.body;
 
-    // 1️⃣ Validate required fields
+
     if (!destination || !campLocation || !source || !userId || !timestamp) {
       return res.status(400).json({
         success: false,
@@ -39,7 +39,7 @@ router.post("/blockIP", async (req, res) => {
       });
     }
 
-    // 2️⃣ Check if destination already blocked
+ 
     const existingBlocked = await BlockedIP.findOne({ destination });
     if (existingBlocked) {
       return res.status(200).json({
@@ -49,7 +49,6 @@ router.post("/blockIP", async (req, res) => {
       });
     }
 
-    // 3️⃣ Create and save new blocked IP
     const newBlockedIP = new BlockedIP({
       destination,
       campLocation,
@@ -60,7 +59,7 @@ router.post("/blockIP", async (req, res) => {
 
     await newBlockedIP.save();
 
-    // 4️⃣ Return success response
+
     res.status(201).json({
       success: true,
       message: "IP successfully added to blocked list.",
@@ -78,7 +77,7 @@ router.post("/blockIP", async (req, res) => {
 
 router.get("/getAllBlockedIPS", async (req, res) => {
   try {
-    // Fetch all blocked IPs, sorted by newest first
+
     const blockedIPs = await BlockedIP.find().sort({ createdAt: -1 });
 
     res.status(200).json({

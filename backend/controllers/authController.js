@@ -2,14 +2,14 @@ const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-// Generate JWT Token
+
 const generateToken = (userId) => {
   return jwt.sign({ id: userId }, process.env.JWT_SECRET, {
     expiresIn: "7d",
   });
 };
 
-// Register User
+
 const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -37,7 +37,7 @@ const registerUser = async (req, res) => {
 
     await user.save();
 
-    // Ensure secret exists
+   
     const jwtSecret = process.env.JWT_SECRET;
     if (!jwtSecret) {
       throw new Error("ACCESS_TOKEN_SECRET is not defined in .env");
@@ -68,13 +68,11 @@ const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Check if user exists
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    // Compare passwords
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
@@ -97,7 +95,7 @@ const getUserProfile = async (req, res) => {
   if (!req.user || !req.user._id) {
     return res.status(401).json({ error: true, message: 'Unauthorized: No user info.' });
   }
-  // User is already loaded on req.user from middleware!
+
   return res.json({
     user: req.user,
     message: "",
@@ -105,8 +103,6 @@ const getUserProfile = async (req, res) => {
 };
 
 
-
-// ✅ Properly export all controller functions
 module.exports = {
   registerUser,
   loginUser,
